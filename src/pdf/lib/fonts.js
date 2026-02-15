@@ -1,5 +1,6 @@
 function generateFontDefinition( font ) {
-	const fontPath = `/fonts/${font}/${font}`;
+	const base = import.meta.env.BASE_URL || '/';
+	const fontPath = `${base}fonts/${font}/${font}`;
 	return {
 		[ font ]: {
 			family: font,
