@@ -23,9 +23,9 @@ class Itinerary extends React.PureComponent {
 		timeblockTime: {
 			fontSize: 10,
 			fontWeight: 'bold',
-			textAlign: 'right',
+			textAlign: 'center',
 			borderRight: '1 solid black',
-			padding: '2 3 0 3',
+			padding: '2 1 0 1',
 			justifyContent: 'center',
 		},
 		timeblockCol: {

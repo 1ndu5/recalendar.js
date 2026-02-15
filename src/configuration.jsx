@@ -354,7 +354,7 @@ class Configuration extends React.PureComponent {
 
 	handleTimeblockToggle = ( event ) => {
 		if ( event.target.checked ) {
-			this.setState( { timeblockColumns: [ 8, 28, 28, 36 ] } );
+			this.setState( { timeblockColumns: [ 5, 29, 29, 37 ] } );
 		} else {
 			this.setState( { timeblockColumns: [] } );
 		}
