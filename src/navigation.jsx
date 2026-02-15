@@ -12,8 +12,6 @@ import { getFullySupportedLocales, getPartiallySupportedLocales } from '~/config
 import {
 	HOME_PATH,
 	CONFIGURATOR_PATH,
-	FEATURES_PATH,
-	FAQ_PATH,
 } from '~/lib/paths';
 
 class Navigation extends React.Component {
@@ -59,7 +57,7 @@ class Navigation extends React.Component {
 		return (
 			<Navbar bg="dark" variant="dark" expand="md">
 				<Container fluid>
-					<Navbar.Brand href={ HOME_PATH }>ReCalendar</Navbar.Brand>
+					<Navbar.Brand href={ HOME_PATH }>ReCalendar Timeblock Edition</Navbar.Brand>
 					<Navbar.Toggle aria-controls="basic-navbar-nav" />
 					<Navbar.Collapse id="basic-navbar-nav">
 						<Nav className="me-auto" variant="pills">
@@ -70,14 +68,6 @@ class Navigation extends React.Component {
 								<Nav.Link href={ CONFIGURATOR_PATH } active>
 									{t( 'navigation.configuration' )}
 								</Nav.Link>
-							</Nav.Item>
-							<Nav.Item>
-								<Nav.Link href={ FEATURES_PATH }>
-									{t( 'navigation.features' )}
-								</Nav.Link>
-							</Nav.Item>
-							<Nav.Item>
-								<Nav.Link href={ FAQ_PATH }>{t( 'navigation.faq' )}</Nav.Link>
 							</Nav.Item>
 						</Nav>
 						<Stack direction="horizontal">
