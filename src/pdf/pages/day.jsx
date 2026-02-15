@@ -31,8 +31,8 @@ class DayPage extends React.Component {
 					flexDirection: 'row',
 					justifyContent: 'flex-end',
 					alignItems: 'center',
-					padding: '2 10 2 0',
-					borderBottom: '1 solid #AAA',
+					paddingRight: 5,
+					paddingBottom: 2,
 				},
 				shutdownText: {
 					fontSize: 10,
@@ -40,8 +40,8 @@ class DayPage extends React.Component {
 					marginRight: 5,
 				},
 				shutdownBox: {
-					width: 14,
-					height: 14,
+					width: 12,
+					height: 12,
 					border: '1 solid black',
 				},
 			},
@@ -110,9 +110,10 @@ class DayPage extends React.Component {
 							nextLink={ '#' + nextDayPageLink( date, config ) }
 							calendar={ <MiniCalendar date={ date } config={ config } /> }
 							specialItems={ specialItems }
-						/>
-						<View style={ this.styles.content }>
+						>
 							{this.renderShutdownCheckbox()}
+						</Header>
+						<View style={ this.styles.content }>
 							<Itinerary
 								items={ itemsByPage[ 0 ] }
 								timeblockColumns={ config.timeblockColumns }

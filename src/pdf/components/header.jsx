@@ -101,6 +101,7 @@ class Header extends React.PureComponent {
 	render() {
 		const {
 			calendar,
+			children,
 			id,
 			nextLink,
 			number,
@@ -129,6 +130,7 @@ class Header extends React.PureComponent {
 						{this.renderSpecialItems()}
 						<Text style={ this.styles.subtitle }>{subtitle}</Text>
 					</View>
+					{children}
 				</View>
 				{calendar}
 			</View>
