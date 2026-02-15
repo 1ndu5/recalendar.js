@@ -8,7 +8,7 @@ A fork of [ReCalendar.js](https://github.com/klimeryk/recalendar.js/) by [Igor K
 
 ## What's different in this fork?
 
-All the features of the original ReCalendar are included. This fork adds:
+All the features of the original ReCalendar are included (to 15/02/2026). This fork adds:
 
 - **Timeblock planner columns** - adds vertical lines to day pages, creating a time column, two scheduling columns, and a notes column. Column widths are fully configurable.
 - **Shutdown checkbox** - adds configurable "Shut Down" text and a checkbox to the header of day pages. Can be enabled per day of the week (e.g. workdays only).
