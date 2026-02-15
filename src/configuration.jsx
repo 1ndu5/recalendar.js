@@ -43,6 +43,8 @@ class Configuration extends React.PureComponent {
 		lastPreviewTime: 10000,
 		lastFullTime: null,
 		...hydrateFromObject( this.props.initialState ),
+		timeblockColumns: this.props.initialState.timeblockColumns || [],
+		shutdownCheckbox: this.props.initialState.shutdownCheckbox || { text: '', days: [] },
 	};
 
 	constructor( props ) {
@@ -350,6 +352,50 @@ class Configuration extends React.PureComponent {
 		this.setState( { dayItineraries: newItineraries } );
 	};
 
+	handleTimeblockToggle = ( event ) => {
+		if ( event.target.checked ) {
+			this.setState( { timeblockColumns: [ 8, 28, 28, 36 ] } );
+		} else {
+			this.setState( { timeblockColumns: [] } );
+		}
+	};
+
+	handleTimeblockColumnChange = ( event ) => {
+		const index = Number( event.target.dataset.index );
+		const value = Number( event.target.value );
+		const newColumns = [ ...this.state.timeblockColumns ];
+		newColumns[ index ] = value;
+		this.setState( { timeblockColumns: newColumns } );
+	};
+
+	handleShutdownTextChange = ( event ) => {
+		this.setState( {
+			shutdownCheckbox: {
+				...this.state.shutdownCheckbox,
+				text: event.target.value,
+			},
+		} );
+	};
+
+	handleShutdownDayChange = ( event ) => {
+		const dayOfWeek = Number( event.target.dataset.index );
+		const newDays = [ ...( this.state.shutdownCheckbox.days || [] ) ];
+		const indexInArray = newDays.indexOf( dayOfWeek );
+		if ( event.target.checked ) {
+			if ( indexInArray === -1 ) {
+				newDays.push( dayOfWeek );
+			}
+		} else if ( indexInArray !== -1 ) {
+			newDays.splice( indexInArray, 1 );
+		}
+		this.setState( {
+			shutdownCheckbox: {
+				...this.state.shutdownCheckbox,
+				days: newDays,
+			},
+		} );
+	};
+
 	handleDayItineraryAdd = ( event ) => {
 		const newItineraries = [ ...this.state.dayItineraries ];
 		const { field, type } = event.target.dataset;
@@ -654,6 +700,114 @@ class Configuration extends React.PureComponent {
 							<Accordion defaultActiveKey="0">
 								{getWeekdays( this.state.firstDayOfWeek ).map( this.renderDayItinerary )}
 							</Accordion>
+						</Accordion.Body>
+					</Accordion.Item>
+					<Accordion.Item eventKey="timeblockPlanner">
+						<Accordion.Header>{t( 'configuration.timeblock.title' )}</Accordion.Header>
+						<Accordion.Body>
+							<p className="mb-3">{t( 'configuration.timeblock.description' )}</p>
+							<Form.Group controlId="timeblockEnabled" className="mb-3">
+								<Form.Check
+									label={ t( 'configuration.timeblock.enable' ) }
+									type="checkbox"
+									checked={ this.state.timeblockColumns.length === 4 }
+									onChange={ this.handleTimeblockToggle }
+								/>
+							</Form.Group>
+							{this.state.timeblockColumns.length === 4 && (
+								<>
+									<Form.Label>{t( 'configuration.timeblock.columns' )}</Form.Label>
+									<Row className="mb-3">
+										<Col>
+											<Form.Group>
+												<Form.Label className="small text-muted">{t( 'configuration.timeblock.time-col' )}</Form.Label>
+												<Form.Control
+													type="number"
+													value={ this.state.timeblockColumns[ 0 ] }
+													data-index="0"
+													onChange={ this.handleTimeblockColumnChange }
+													min={ 1 }
+													max={ 50 }
+												/>
+											</Form.Group>
+										</Col>
+										<Col>
+											<Form.Group>
+												<Form.Label className="small text-muted">{t( 'configuration.timeblock.block1-col' )}</Form.Label>
+												<Form.Control
+													type="number"
+													value={ this.state.timeblockColumns[ 1 ] }
+													data-index="1"
+													onChange={ this.handleTimeblockColumnChange }
+													min={ 1 }
+													max={ 50 }
+												/>
+											</Form.Group>
+										</Col>
+										<Col>
+											<Form.Group>
+												<Form.Label className="small text-muted">{t( 'configuration.timeblock.block2-col' )}</Form.Label>
+												<Form.Control
+													type="number"
+													value={ this.state.timeblockColumns[ 2 ] }
+													data-index="2"
+													onChange={ this.handleTimeblockColumnChange }
+													min={ 1 }
+													max={ 50 }
+												/>
+											</Form.Group>
+										</Col>
+										<Col>
+											<Form.Group>
+												<Form.Label className="small text-muted">{t( 'configuration.timeblock.notes-col' )}</Form.Label>
+												<Form.Control
+													type="number"
+													value={ this.state.timeblockColumns[ 3 ] }
+													data-index="3"
+													onChange={ this.handleTimeblockColumnChange }
+													min={ 1 }
+													max={ 50 }
+												/>
+											</Form.Group>
+										</Col>
+									</Row>
+									<Form.Text className="text-muted mb-3 d-block">
+										{t( 'configuration.timeblock.columns-hint' )}
+									</Form.Text>
+								</>
+							)}
+							<hr />
+							<Form.Group controlId="shutdownText" className="mb-3">
+								<Form.Label>{t( 'configuration.timeblock.shutdown.label' )}</Form.Label>
+								<Form.Control
+									type="text"
+									value={ this.state.shutdownCheckbox.text || '' }
+									onChange={ this.handleShutdownTextChange }
+									placeholder={ t( 'configuration.timeblock.shutdown.placeholder' ) }
+								/>
+								<Form.Text className="text-muted">
+									{t( 'configuration.timeblock.shutdown.description' )}
+								</Form.Text>
+							</Form.Group>
+							{this.state.shutdownCheckbox.text && (
+								<Form.Group className="mb-3">
+									<Form.Label>{t( 'configuration.timeblock.shutdown.days' )}</Form.Label>
+									<ListGroup>
+										{getWeekdays( this.state.firstDayOfWeek ).map( ( { full, index } ) => (
+											<ListGroup.Item key={ full }>
+												<Form.Check
+													id={ 'shutdown-day-' + index }
+													type="checkbox"
+													label={ full }
+													data-index={ index }
+													checked={ ( this.state.shutdownCheckbox.days || [] ).includes( index ) }
+													onChange={ this.handleShutdownDayChange }
+												/>
+											</ListGroup.Item>
+										) )}
+									</ListGroup>
+								</Form.Group>
+							)}
 						</Accordion.Body>
 					</Accordion.Item>
 					<ToggleAccordionItem

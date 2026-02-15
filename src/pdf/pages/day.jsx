@@ -1,4 +1,4 @@
-import { Page, View, StyleSheet } from '@react-pdf/renderer';
+import { Page, View, Text, StyleSheet } from '@react-pdf/renderer';
 import dayjs from 'dayjs/esm';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -22,16 +22,67 @@ import { splitItemsByPages } from '~/pdf/utils';
 
 class DayPage extends React.Component {
 	styles = StyleSheet.create(
-		Object.assign( {}, { content, page: pageStyle( this.props.config ) } ),
+		Object.assign(
+			{},
+			{
+				content,
+				page: pageStyle( this.props.config ),
+				shutdownRow: {
+					flexDirection: 'row',
+					justifyContent: 'flex-end',
+					alignItems: 'center',
+					padding: '2 10 2 0',
+					borderBottom: '1 solid #AAA',
+				},
+				shutdownText: {
+					fontSize: 10,
+					fontStyle: 'italic',
+					marginRight: 5,
+				},
+				shutdownBox: {
+					width: 14,
+					height: 14,
+					border: '1 solid black',
+				},
+			},
+		),
 	);
 
 	renderExtraItems = ( items, index ) => (
 		<Page key={ index } size={ this.props.config.pageSize } dpi={ this.props.config.dpi }>
 			<View style={ this.styles.page }>
-				<Itinerary items={ items } />
+				<Itinerary
+					items={ items }
+					timeblockColumns={ this.props.config.timeblockColumns }
+				/>
 			</View>
 		</Page>
 	);
+
+	renderShutdownCheckbox() {
+		const { config, date } = this.props;
+		const { shutdownCheckbox } = config;
+		if (
+			! shutdownCheckbox
+			|| ! shutdownCheckbox.text
+			|| ! shutdownCheckbox.days
+			|| shutdownCheckbox.days.length === 0
+		) {
+			return null;
+		}
+
+		const currentDayOfWeek = date.day();
+		if ( ! shutdownCheckbox.days.includes( currentDayOfWeek ) ) {
+			return null;
+		}
+
+		return (
+			<View style={ this.styles.shutdownRow }>
+				<Text style={ this.styles.shutdownText }>{shutdownCheckbox.text}</Text>
+				<View style={ this.styles.shutdownBox } />
+			</View>
+		);
+	}
 
 	render() {
 		const { date, config } = this.props;
@@ -61,7 +112,11 @@ class DayPage extends React.Component {
 							specialItems={ specialItems }
 						/>
 						<View style={ this.styles.content }>
-							<Itinerary items={ itemsByPage[ 0 ] } />
+							{this.renderShutdownCheckbox()}
+							<Itinerary
+								items={ itemsByPage[ 0 ] }
+								timeblockColumns={ config.timeblockColumns }
+							/>
 						</View>
 					</View>
 				</Page>

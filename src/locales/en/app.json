@@ -143,6 +143,23 @@
 		"day": {
 			"title": "Day itineraries"
 		},
+		"timeblock": {
+			"title": "Timeblock planner",
+			"description": "Add vertical lines to day pages to create a timeblock planner layout with columns for time labels, blocks, and notes.",
+			"enable": "Enable timeblock columns on day pages",
+			"columns": "Column widths (%)",
+			"columns-hint": "Column widths are percentages and should add up to 100.",
+			"time-col": "Time",
+			"block1-col": "Block 1",
+			"block2-col": "Block 2",
+			"notes-col": "Notes",
+			"shutdown": {
+				"label": "Shutdown checkbox",
+				"placeholder": "e.g. Shut Down",
+				"description": "Text shown with a tickable box at the top of day pages. Leave empty to disable.",
+				"days": "Show shutdown checkbox on these days"
+			}
+		},
 		"special-dates": {
 			"title": "Special dates",
 			"description": "Add your birthdays, celebrations, events, etc. here to get reminders about them in weekly overviews and day pages as they approach.",

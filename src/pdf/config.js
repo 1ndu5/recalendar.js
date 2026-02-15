@@ -31,6 +31,8 @@ const CONFIG_FIELDS = [
 	'isWeekRetrospectiveEnabled',
 	'weekRetrospectiveItinerary',
 	'specialDates',
+	'timeblockColumns',
+	'shutdownCheckbox',
 ];
 
 export const CONFIG_FILE = 'config.json';
@@ -111,6 +113,15 @@ class PdfConfig {
 		const { dpi, pageSize } = getPageProperties( this.device );
 		this.dpi = dpi;
 		this.pageSize = pageSize;
+		// Timeblock planner: column widths as percentages [time, block1, block2, notes]
+		// Empty array = disabled. Must sum to 100 when enabled.
+		this.timeblockColumns = [];
+
+		// Shutdown checkbox: { text: 'Shut Down', days: [1, 2, 3, 4, 5] }
+		// days = dayjs weekday numbers (0=Sunday, 1=Monday, ..., 6=Saturday)
+		// Empty object with no days = disabled.
+		this.shutdownCheckbox = { text: '', days: [] };
+
 		this.specialDates = [
 			{
 				date: '01-01',
