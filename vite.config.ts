@@ -5,7 +5,9 @@ import { defineConfig } from 'vite';
 import i18nextLoader from 'vite-plugin-i18next-loader';
 
 export default defineConfig( {
+	base: '/recalendar.js/',
 	build: {
+		outDir: 'docs',
 		rollupOptions: {
 			input: {
 				app: './create.html',
